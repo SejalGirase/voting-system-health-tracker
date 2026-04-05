@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voting Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #74ebd5, #ACB6E5); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; }
+        .container { background: white; padding: 40px; width: 450px; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); text-align: center; }
+        h2 { color: #2c3e50; margin-bottom: 20px; font-size: 26px; border-bottom: 2px solid #f1f2f6; padding-bottom: 15px;}
+        .candidate { display: block; text-align: left; background: #f8f9fa; margin: 12px 0; padding: 15px 20px; border-radius: 8px; font-size: 18px; border: 2px solid transparent; cursor: pointer; transition: 0.3s; font-weight: 500; color: #34495e;}
+        .candidate:hover { background: #eef2f3; border-color: #74ebd5; transform: translateX(5px); }
+        input[type="radio"] { margin-right: 15px; transform: scale(1.2); }
+        button { padding: 15px; width: 100%; background: #3498db; color: white; font-size: 18px; border: none; border-radius: 8px; cursor: pointer; margin-top: 25px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);}
+        button:hover { background: #2980b9; transform: translateY(-2px); }
+        .bottom-links { margin-top: 25px; display: flex; justify-content: space-around; }
+        .logout { display: inline-block; color: #e74c3c; text-decoration: none; font-weight: bold; padding: 10px 20px; border-radius: 5px; border: 1px solid #e74c3c; transition: 0.3s;}
+        .logout:hover { background: #e74c3c; color: white; }
+        .admin-btn { display: inline-block; color: #2c3e50; text-decoration: none; font-weight: bold; padding: 10px 20px; border-radius: 5px; border: 1px solid #2c3e50; transition: 0.3s;}
+        .admin-btn:hover { background: #2c3e50; color: white; }
+        .success-msg { background: #d4edda; color: #155724; padding: 20px; border-radius: 8px; font-size: 20px; font-weight: bold; margin-bottom: 20px; border: 1px solid #c3e6cb;}
+        .locked-msg { background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; font-size: 18px; font-weight: bold; margin-bottom: 20px; border: 1px solid #ffeeba;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🗳️ Official Voting Portal</h2>
+        
+        {% if success %}
+            <div class="success-msg">🎉 Success! Your vote has been securely recorded.</div>
+            <p style="color: #7f8c8d;">Thank you for participating in the election.</p>
+        {% elif status == 1 %}
+            <div class="locked-msg">🔒 You have already submitted your vote.</div>
+            <p style="color: #7f8c8d;">To maintain election integrity, each citizen is only permitted to vote once.</p>
+        {% else %}
+            <p style="color: #7f8c8d; font-size: 16px; margin-bottom: 20px;">Please select your preferred candidate:</p>
+            <form method="POST">
+                <label class="candidate"><input type="radio" name="candidate" value="Alice Smith" required> Alice Smith</label>
+                <label class="candidate"><input type="radio" name="candidate" value="Bob Johnson"> Bob Johnson</label>
+                <label class="candidate"><input type="radio" name="candidate" value="Charlie Davis"> Charlie Davis</label>
+                <label class="candidate"><input type="radio" name="candidate" value="Diana Prince"> Diana Prince</label>
+                <button type="submit">Cast My Vote Securely</button>
+            </form>
+        {% endif %}
+        
+        <div class="bottom-links">
+            <a class="admin-btn" href="/health" target="_blank">⚙️ System Status</a>
+            <a class="logout" href="/logout">Secure Logout</a>
+        </div>
+    </div>
+</body>
+</html>

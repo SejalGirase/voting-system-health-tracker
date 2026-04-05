@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voter Registration</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #11998e, #38ef7d); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; }
+        .container { background: white; padding: 40px; width: 350px; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); text-align: center; }
+        h2 { color: #333; margin-bottom: 30px; font-size: 28px; }
+        input { margin: 10px 0; padding: 15px; width: 90%; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #11998e; box-shadow: 0 0 8px rgba(17, 153, 142, 0.4); }
+        button { padding: 15px; width: 100%; background: #11998e; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #0f877d; transform: translateY(-2px); }
+        p { margin-top: 20px; color: #666; }
+        a { color: #11998e; text-decoration: none; font-weight: bold; }
+        .error { color: #ff4757; font-weight: bold; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Register to Vote</h2>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="POST">
+            <input type="text" name="username" placeholder="Choose a Username" required>
+            <input type="password" name="password" placeholder="Create a Password" required>
+            <button type="submit">Complete Registration</button>
+        </form>
+        <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Health & Reliability</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; }
+        .header { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; padding: 25px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .stats { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        .stat-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); width: 30%; text-align: center; border-bottom: 6px solid #3498db; transition: 0.3s; }
+        .stat-box:hover { transform: translateY(-5px); }
+        .stat-box h3 { margin: 0 0 10px 0; color: #7f8c8d; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;}
+        .stat-box h1 { margin: 0; color: #2c3e50; font-size: 42px; }
+        .status-online { color: #2ecc71 !important; }
+        
+        /* New Chart Container Style */
+        .chart-container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .chart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f2f6; padding-bottom: 10px; margin-bottom: 20px; }
+        .live-indicator { color: #e74c3c; font-weight: bold; font-size: 14px; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        th, td { padding: 18px; text-align: left; border-bottom: 1px solid #f1f2f6; }
+        th { background-color: #2c3e50; color: white; text-transform: uppercase; font-size: 14px; letter-spacing: 1px;}
+        tr:hover { background-color: #f8f9fa; }
+        .badge { padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; display: inline-block; width: 70px; text-align: center;}
+        .bg-info { background: #3498db; }
+        .bg-warning { background: #f1c40f; color: #333; }
+        .bg-error { background: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="margin:0; font-size: 32px;">⚡ Enterprise Reliability Tracker</h1>
+        <p style="margin: 10px 0 0 0; color: #74ebd5;">Automated DevOps Monitoring & Security Dashboard</p>
+    </div>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat-box" style="border-color: #9b59b6;">
+                <h3>Total Registered Users</h3>
+                <h1>{{ users }}</h1>
+            </div>
+            <div class="stat-box" style="border-color: #e67e22;">
+                <h3>Total Votes Cast</h3>
+                <h1>{{ votes }}</h1>
+            </div>
+            <div class="stat-box" style="border-color: #2ecc71;">
+                <h3>System Status</h3>
+                <h1 class="status-online">OPTIMAL</h1>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3 style="margin: 0; color: #2c3e50;">Live Network & CPU Telemetry</h3>
+                <span class="live-indicator">● LIVE</span>
+            </div>
+            <canvas id="telemetryChart" height="70"></canvas>
+        </div>
+
+       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="color: #2c3e50; margin: 0;">📡 Database Security & Activity Logs</h3>
+            <a href="/download_logs" style="background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">📥 Export Audit CSV</a>
+        </div>
+        <table>
+            <tr>
+                <th>Log ID</th>
+                <th>Status</th>
+                <th>Activity Details</th>
+                <th>Timestamp</th>
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td style="font-weight: bold; color: #7f8c8d;">#{{ log[0] }}</td>
+                <td>
+                    <span class="badge 
+                        {% if log[1] == 'ERROR' %}bg-error
+                        {% elif log[1] == 'WARNING' %}bg-warning
+                        {% else %}bg-info{% endif %}">
+                        {{ log[1] }}
+                    </span>
+                </td>
+                <td style="color: #2c3e50; font-weight: 500;">{{ log[2] }}</td>
+                <td style="color: #95a5a6; font-size: 14px;">{{ log[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('telemetryChart').getContext('2d');
+        let telemetryData = [20, 25, 22, 30, 28, 35, 32, 40, 38, 45, 42, 50, 48, 55, 60];
+        
+        const telemetryChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'Server Load (%)',
+                    data: telemetryData,
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4 // Makes the line wavy and smooth
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: { min: 0, max: 100 }
+                },
+                animation: { duration: 0 } // Disables initial animation for smoother live updates
+            }
+        });
+
+        // Function to push new random data every 1.5 seconds to simulate live server tracking
+        setInterval(() => {
+            const lastVal = telemetryData[telemetryData.length - 1];
+            const change = Math.floor(Math.random() * 15) - 7; // Random fluctuation
+            let newVal = lastVal + change;
+            if (newVal > 90) newVal = 90;
+            if (newVal < 10) newVal = 10;
+
+            telemetryData.push(newVal);
+            telemetryData.shift(); // Remove oldest data point
+            telemetryChart.update();
+        }, 1500);
+    </script>
+</body>
+</html>
