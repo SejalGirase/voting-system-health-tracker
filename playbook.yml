@@ -1,0 +1,21 @@
+---
+- name: setup web server
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: start apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: create sample web page
+      copy:
+        content: "<html><body><h1>Voting System Infrastructure Ready</h1></body></html>"
+        dest: /var/www/html/index.html
