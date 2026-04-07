@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Secure Voter Login</title>
-    <style>
+<title>Secure Voter Login</title>
+<style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; }
         .container { background: white; padding: 40px; width: 350px; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); text-align: center; position: relative;}
         h2 { color: #333; margin-bottom: 30px; font-size: 28px; }
@@ -13,22 +13,18 @@
         p { margin-top: 20px; color: #666; }
         a { color: #764ba2; text-decoration: none; font-weight: bold; }
         .error { color: #ff4757; font-weight: bold; margin-bottom: 15px; }
-        .admin-link { display: block; margin-top: 30px; font-size: 12px; color: #aaa; text-decoration: none; }
-        .admin-link:hover { color: #333; }
-    </style>
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>👋 Welcome Back</h2>
+<div class="container">
+<h2>👋 Welcome Back</h2>
         {% if error %}<div class="error">{{ error }}</div>{% endif %}
-        <form method="POST">
-            <input type="text" name="username" placeholder="Voter ID / Username" required>
-            <input type="password" name="password" placeholder="Secure Password" required>
-            <button type="submit">Login to Vote</button>
-        </form>
-        <p>Not registered yet? <a href="/register">Create an account</a></p>
-        
-        <a href="/health" class="admin-link" target="_blank">⚙️ Admin: System Health Tracker</a>
-    </div>
+<form method="POST">
+<input type="text" name="username" placeholder="Voter ID / Username" required>
+<input type="password" name="password" placeholder="Secure Password" required>
+<button type="submit">Login to Vote</button>
+</form>
+<p>Not registered yet? <a href="/register">Create an account</a></p>
+</div>
 </body>
 </html>
